@@ -22,6 +22,7 @@ return {
             "go",
             "javascript",
             "typescript",
+            "markdown",
           },
 
           auto_install = true,
