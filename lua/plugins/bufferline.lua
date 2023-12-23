@@ -25,6 +25,8 @@ return {
       }
 
       vim.keymap.set("n", "<leader>x", ":BufDel<cr>", { desc = "Closes the current buffer", silent = true })
+      vim.keymap.set("n", "<tab>", ":bn<cr>", { desc = "Next buffer", silent = true })
+      vim.keymap.set("n", "<S-tab>", ":bp<cr>", { desc = "Previous buffer", silent = true })
     end,
   },
 }

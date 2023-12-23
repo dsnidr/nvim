@@ -12,7 +12,7 @@ return {
           end
         end,
 
-        open_mapping = [[<C-i>]],
+        open_mapping = [[<C-t>]],
       }
     end
   },
