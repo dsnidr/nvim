@@ -13,6 +13,7 @@ return {
         end,
 
         open_mapping = [[<C-t>]],
+        direction = "tab",
       }
     end
   },
