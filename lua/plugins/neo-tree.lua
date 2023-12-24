@@ -10,7 +10,13 @@ return {
     config = function()
       require("neo-tree").setup {
         close_if_last_window = true,
+        default_component_configs = {
+          indent = {
+            padding = 1,
+          },
+        },
         window = {
+          width = 30,
           mappings = {
             ["<space>"] = {
               "toggle_node",
