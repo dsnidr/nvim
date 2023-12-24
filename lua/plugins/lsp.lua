@@ -22,29 +22,15 @@ local servers = {
       }
     },
     _setup = function()
+      local format_sync_grp = vim.api.nvim_create_augroup("GoFormat", {})
       vim.api.nvim_create_autocmd("BufWritePre", {
         pattern = "*.go",
         callback = function()
-          local params = vim.lsp.util.make_range_params()
-          params.context = {only = {"source.organizeImports"}}
-          -- buf_request_sync defaults to a 1000ms timeout. Depending on your
-          -- machine and codebase, you may want longer. Add an additional
-          -- argument after params if you find that you have to write the file
-          -- twice for changes to be saved.
-          -- E.g., vim.lsp.buf_request_sync(0, "textDocument/codeAction", params, 3000)
-          local result = vim.lsp.buf_request_sync(0, "textDocument/codeAction", params)
-          for cid, res in pairs(result or {}) do
-            for _, r in pairs(res.result or {}) do
-              if r.edit then
-                local enc = (vim.lsp.get_client_by_id(cid) or {}).offset_encoding or "utf-16"
-                vim.lsp.util.apply_workspace_edit(r.edit, enc)
-              end
-            end
-          end
-          vim.lsp.buf.format({async = false})
-        end
+          require("go.format").goimport()
+        end,
+        group = format_sync_grp,
       })
-    end
+    end,
   }
 }
 
@@ -81,9 +67,9 @@ return {
 
         nmap("gd", builtin.lsp_definitions, "[G]oto [D]efinition")
         nmap("gr", builtin.lsp_references, "[G]oto [R]eferences")
-        nmap("gr", builtin.lsp_references, "[G]oto [R]eferences")
-        nmap("<leader>D", builtin.lsp_references, "[G]oto [R]eferences")
-        nmap("<leader>ds", builtin.lsp_references, "[D]ocument [S]ymbols")
+        nmap("gI", builtin.lsp_implementations, "[G]oto [I]mplementation")
+        nmap("<leader>D", builtin.lsp_type_definitions, "Type [D]efinition")
+        nmap("<leader>ds", builtin.lsp_document_symbols, "[D]ocument [S]ymbols")
         nmap("<leader>ws", builtin.lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
 
         -- See `:help K` for why this keymap
@@ -91,7 +77,7 @@ return {
         nmap("<C-k>", vim.lsp.buf.signature_help, "Signature documentation")
 
         -- Lesser used LSP functionality
-        nmap("gD", vim.lsp.declaration, "[G]oto [D]eclaration")
+        nmap("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
         nmap("<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
         nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
         nmap("<leader>wl", function()
@@ -171,20 +157,21 @@ return {
     "hrsh7th/nvim-cmp",
     dependencies = {
       -- Snippet Engine & its associated nvim-cmp source
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip',
+      "L3MON4D3/LuaSnip",
+      "saadparwaiz1/cmp_luasnip",
 
       -- Adds LSP completion capabilities
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-path',
+      "hrsh7th/cmp-nvim-lsp",
+      "hrsh7th/cmp-path",
+      "hrsh7th/cmp-buffer",
 
       -- Adds a number of user-friendly snippets
-      'rafamadriz/friendly-snippets',
+      "rafamadriz/friendly-snippets",
     },
     config = function()
-      local cmp = require 'cmp'
-      local luasnip = require 'luasnip'
-      require('luasnip.loaders.from_vscode').lazy_load()
+      local cmp = require "cmp"
+      local luasnip = require "luasnip"
+      require("luasnip.loaders.from_vscode").lazy_load()
       luasnip.config.setup {}
 
       cmp.setup {
@@ -194,19 +181,19 @@ return {
           end,
         },
         completion = {
-          completeopt = 'menu,menuone,noinsert',
+          completeopt = "menu,menuone,noinsert",
         },
         mapping = cmp.mapping.preset.insert {
-          ['<C-n>'] = cmp.mapping.select_next_item(),
-          ['<C-p>'] = cmp.mapping.select_prev_item(),
-          ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-f>'] = cmp.mapping.scroll_docs(4),
-          ['<C-Space>'] = cmp.mapping.complete {},
-          ['<CR>'] = cmp.mapping.confirm {
+          ["<C-n>"] = cmp.mapping.select_next_item(),
+          ["<C-p>"] = cmp.mapping.select_prev_item(),
+          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+          ["<C-f>"] = cmp.mapping.scroll_docs(4),
+          ["<C-Space>"] = cmp.mapping.complete {},
+          ["<CR>"] = cmp.mapping.confirm {
             behavior = cmp.ConfirmBehavior.Replace,
             select = true,
           },
-          ['<Tab>'] = cmp.mapping(function(fallback)
+          ["<Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
             elseif luasnip.expand_or_locally_jumpable() then
@@ -214,8 +201,8 @@ return {
             else
               fallback()
             end
-          end, { 'i', 's' }),
-          ['<S-Tab>'] = cmp.mapping(function(fallback)
+          end, { "i", "s" }),
+          ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
             elseif luasnip.locally_jumpable(-1) then
@@ -223,14 +210,15 @@ return {
             else
               fallback()
             end
-          end, { 'i', 's' }),
+          end, { "i", "s" }),
         },
         sources = {
-          { name = 'nvim_lsp' },
-          { name = 'luasnip' },
-          { name = 'path' },
+          { name = "nvim_lsp" },
+          { name = "luasnip" },
+          { name = "path" },
+          { name = "buffer" },
         },
       }
     end,
-  },
+  }, 
 }
