@@ -21,7 +21,7 @@ return {
 
       require("bufdel").setup {
         next = "tabs",
-        quit = true, -- quit when last buffer is closed
+        --quit = true, -- quit when last buffer is closed
       }
 
       vim.keymap.set("n", "<leader>x", ":BufDel<cr>", { desc = "Closes the current buffer", silent = true })
