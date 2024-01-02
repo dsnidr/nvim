@@ -24,7 +24,6 @@ return {
             "typescript",
             "markdown",
           },
-
           auto_install = true,
           highlight = { enable = true },
           indent = { enable = true },
@@ -85,4 +84,26 @@ return {
       end, 0)
     end,
   },
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    config = function()
+      local ctx = require("treesitter-context")
+      ctx.setup {
+        enable = true,
+        max_lines = 0,
+        min_window_height = 0,
+        line_numbers = true,
+        multiline_threshold = 1,
+        trim_scope = "other",
+        mode = "cursor",
+        separator = nil,
+        zindex = 20,
+        on_attach = nil,
+      }
+
+      vim.keymap.set("n", "[c", function()
+       ctx.go_to_context(vim.v.count1)
+      end, { silent = true })
+    end,
+  }
 }
