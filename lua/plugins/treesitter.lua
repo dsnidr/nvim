@@ -23,6 +23,7 @@ return {
             "javascript",
             "typescript",
             "markdown",
+            "json",
           },
           auto_install = true,
           highlight = { enable = true },

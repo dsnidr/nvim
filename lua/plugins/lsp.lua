@@ -31,7 +31,9 @@ local servers = {
         group = format_sync_grp,
       })
     end,
-  }
+  },
+
+  jsonls = {},
 }
 
 return {
