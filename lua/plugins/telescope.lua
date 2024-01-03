@@ -10,6 +10,10 @@ return {
         return vim.fn.executable "make" == 1
       end,
     },
+    {
+      "nvim-telescope/telescope-live-grep-args.nvim" ,
+      version = "^1.0.0",
+    },
   },
   config = function()
     local telescope = require("telescope")
@@ -25,6 +29,8 @@ return {
         },
       },
     }
+
+    telescope.load_extension("live_grep_args")
 
     -- Enable telescope fzf native (if it was able to be installed, see dependencies)
     pcall(telescope.load_extension, "fzf")
@@ -90,7 +96,7 @@ return {
     vim.keymap.set("n", "<leader>" .. telescope_key .. "f", builtin.find_files, { desc = "[S]earch [F]iles" })
     vim.keymap.set("n", "<leader>" .. telescope_key .. "h", builtin.help_tags, { desc = "[S]earch [H]elp" })
     vim.keymap.set("n", "<leader>" .. telescope_key .. "w", builtin.grep_string, { desc = "[S]earch current [W]ord" })
-    vim.keymap.set("n", "<leader>" .. telescope_key .. "g", builtin.live_grep, { desc = "[S]earch by [G]rep" })
+    vim.keymap.set("n", "<leader>" .. telescope_key .. "g", ":lua require('telescope').extensions.live_grep_args.live_grep_args()<CR>", { desc = "[S]earch by [G]rep" })
     vim.keymap.set("n", "<leader>" .. telescope_key .. "G", ":LiveGrepGitRoot<cr>", { desc = "[S]earch by [G]rep on Git Root" })
     vim.keymap.set("n", "<leader>" .. telescope_key .. "d", builtin.diagnostics, { desc = "[S]earch [D]iagnostics" })
     vim.keymap.set("n", "<leader>" .. telescope_key .. "r", builtin.resume, { desc = "[S]earch [R]esume" })
