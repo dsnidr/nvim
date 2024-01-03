@@ -14,20 +14,6 @@ return {
             buftype = { "terminal", "quickfix" },
           }
         },
-        highlights = {
-          winbar = {
-            focused = {
-              fg = "#ffffff",
-              bg = "#000000",
-              bold = true,
-            },
-            unfocused = {
-              fg = "#ff0000",
-              bg = "#ffff00",
-              bold = true,
-            }
-          }
-        }
       }
     end,
   },
@@ -62,6 +48,12 @@ return {
             ["S"] = "split_with_window_picker",
           },
         },
+        filesystem = {
+          follow_current_file = {
+            enabled = true,
+            leave_dirs_open = true,
+          }
+        }
       }
 
       vim.keymap.set("n", "<c-n>", ":Neotree toggle<cr>", {})

@@ -11,6 +11,9 @@ return {
         local treesitter = require("nvim-treesitter.configs")
 
         treesitter.setup {
+          modules = {},
+          sync_install = true,
+          ignore_install = {},
           ensure_installed = {
             -- Base
             "lua",
