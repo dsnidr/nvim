@@ -27,6 +27,7 @@ return {
             "typescript",
             "markdown",
             "json",
+            "http",
           },
           auto_install = true,
           highlight = { enable = true },
