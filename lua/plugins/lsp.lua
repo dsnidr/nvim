@@ -69,7 +69,7 @@ return {
 
         nmap("gd", builtin.lsp_definitions, "[G]oto [D]efinition")
         nmap("gr", builtin.lsp_references, "[G]oto [R]eferences")
-        nmap("gI", builtin.lsp_implementations, "[G]oto [I]mplementation")
+        nmap("gi", builtin.lsp_implementations, "[G]oto [I]mplementation")
         nmap("<leader>D", builtin.lsp_type_definitions, "Type [D]efinition")
         nmap("<leader>ds", builtin.lsp_document_symbols, "[D]ocument [S]ymbols")
         nmap("<leader>ws", builtin.lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")

@@ -81,7 +81,7 @@ return {
         previewer = false,
       })
     end, { desc = "[/] Fuzzy search in current buffer" })
-    
+
     local function telescope_live_grep_open_files()
       builtin.live_grep {
         grep_open_files = true,
