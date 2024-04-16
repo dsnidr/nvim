@@ -18,7 +18,9 @@ return {
     config = function()
       require("go").setup({
         lsp_document_formatting = true,
-
+        lsp_gofumpt = false,
+        gofmt = 'gopls',
+        fillstruct = 'gopls',
       })
 
       vim.keymap.set("n", "<leader>god", ":Neotree close | :GoDebug <cr>", { desc = "Starts a go debug session, also closes neotree to prevent issues" })
