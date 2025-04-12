@@ -1,1 +1,4 @@
-This is my personal NeoVim configuration using Lazy as the package manager.
+# 💤 LazyVim
+
+A starter template for [LazyVim](https://github.com/LazyVim/LazyVim).
+Refer to the [documentation](https://lazyvim.github.io/installation) to get started.
